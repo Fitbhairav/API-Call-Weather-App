@@ -4,7 +4,7 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
 
-const API_KEY = 'e5f6deff69294f7595e43039230606';
+const API_KEY = 'ENTER_YOUR_API_KEY_HERE';
 
 app.post('/getWeather', async (req, res) => {
   try {
