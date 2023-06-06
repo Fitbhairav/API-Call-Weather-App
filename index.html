@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather App</title>
+  <style>
+    /* Add some basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input[type="text"] {
+      padding: 5px;
+      width: 200px;
+      margin-right: 10px;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body align="center">
+  <h1>Weather App</h1>
+  <label for="cities">Enter cities:</label>
+  <input type="text" id="cities" placeholder="Enter city names, separated by commas" />
+  <button onclick="getWeather()">Get Weather</button>
+  <div id="result"></div>
+
+  <script>
+  function getWeather() {
+    const citiesInput = document.getElementById('cities');
+    const cities = citiesInput.value.split(',').map(city => city.trim());
+
+    fetch('/getWeather', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ cities })
+    })
+      .then(response => response.json())
+      .then(data => {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = 'Weather:<br>';
+        for (const city in data.weather) {
+          resultDiv.innerHTML += `${city}: ${data.weather[city]}<br>`;
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        const resultDiv = document.getElementById('result');
+        resultDiv.textContent = 'Failed to fetch weather data';
+      });
+  }
+</script>
+
+
+</body>
+</html>
